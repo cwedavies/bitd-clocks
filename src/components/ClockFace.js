@@ -54,6 +54,24 @@ function ClockFace({caption}) {
         <path d="M-140 0 140 0"
               strokeWidth="2"
               transform="rotate(120)" />
+        <g transform="rotate(-30)" strokeWidth="1">
+          <path d="M-85 0 -75 0" />
+          <path d="M-80 5 -80 -5" />
+          <path d="M85 0 75 0" />
+          <path d="M80 5 80 -5" />
+        </g>
+        <g transform="rotate(-90)" strokeWidth="1">
+          <path d="M-85 0 -75 0" />
+          <path d="M-80 5 -80 -5" />
+          <path d="M85 0 75 0" />
+          <path d="M80 5 80 -5" />
+        </g>
+        <g transform="rotate(-150)" strokeWidth="1">
+          <path d="M-85 0 -75 0" />
+          <path d="M-80 5 -80 -5" />
+          <path d="M85 0 75 0" />
+          <path d="M80 5 80 -5" />
+        </g>
       </g>
     </g>
   );

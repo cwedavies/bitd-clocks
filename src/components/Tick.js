@@ -1,6 +1,6 @@
 import React from 'react';
 
-import texture from '../assets/texture.jpg';
+import texture from '../assets/grunge/texture1.png';
 
 export default Tick;
 
@@ -11,10 +11,10 @@ function Tick({x, y, rotation = 0}) {
     <g transform={transform}>
       <defs>
         <mask id="tick-mask">
-          <image x="-50" y="-50" width="100" href={texture} />
+          <image x="-100" y="-100" width="400" href={texture} />
         </mask>
       </defs>
-      <g mask="url(#tick-mask)">
+      <g mask="url(#tick-mask)" opacity="0.9">
         <circle r="38" cx="0" cy="0"
                 stroke="#A63E31"
                 strokeWidth="6"

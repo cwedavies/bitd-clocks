@@ -6,11 +6,11 @@ import ClockView from './views/ClockView';
 const clocks = [
   {
     caption: [
-      'Run!',
-      'Escape the Bluecoats'
+      'A New Life of Crime',
+      '#Theoldlifewascrimetoo',
     ],
     size: 6,
-    ticks: 5
+    ticks: 2
   }
 ];
 

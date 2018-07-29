@@ -1,10 +1,17 @@
 import server from './server';
-
+import { createLogger, transports, format } from 'winston';
 
 const PORT = 3001;
 
-server()
+const log = createLogger({
+  level: 'info',
+  transports: [
+    new transports.Console({ format: format.simple() })
+  ]
+});
+
+server(log)
   .listen(PORT, (err) => {
-    if (err) return console.error('oops');
-    console.log(`server is listening on ${PORT}`);
+    if (err) return log.error('oops');
+    log.info(`server is listening on ${PORT}`);
   });

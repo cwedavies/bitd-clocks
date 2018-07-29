@@ -1,11 +1,21 @@
 import _ from 'lodash/fp';
 import { serial as test } from 'ava';
 import io from 'socket.io-client';
+import { createLogger, transports, format } from 'winston';
 
 import server from '../lib/server';
 import * as user from './_user';
 
 const TEST_PORT = 3002;
+
+const PORT = 3001;
+
+const log = createLogger({
+  level: process.env.LOG_LEVEL || 'error',
+  transports: [
+    new transports.Console({ format: format.simple() })
+  ]
+});
 
 /*
 1) user A connects to the service
@@ -73,9 +83,9 @@ function delay(ms, promise) {
 
 function startServer() {
   return new Promise((resolve, reject) => {
-    server().listen(TEST_PORT, err => {
+    server(log).listen(TEST_PORT, err => {
       if (err) return reject(`Unable to start server: ${err}`);
-      console.log(`server listening on ${TEST_PORT}`);
+      log.info(`server listening on ${TEST_PORT}`);
       resolve();
     });
   });

@@ -1,21 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../state/clock/actions';
+import { tickUp, tickDown } from '../state/clock';
 
-export default connect(null, mapDispatchToProps)(ClockControls);
+export default connect(null, { tickUp, tickDown })(ClockControls);
 
-function ClockControls({ decrementClock, incrementClock }) {
+function ClockControls({ tickUp, tickDown }) {
   return (
     <section className="clock-controls">
-      <button onClick={decrementClock}>-</button>
-      <button onClick={incrementClock}>+</button>
+      <button onClick={tickDown}>-</button>
+      <button onClick={tickUp}>+</button>
     </section>
   );
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    decrementClock: () => dispatch(actions.decrementClock()),
-    incrementClock: () => dispatch(actions.incrementClock())
-  };
 }

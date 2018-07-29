@@ -6,7 +6,10 @@ export function buildCache(connectDefault) {
   return (name, connect) => {
     const cached = cache[name];
     if (cached) {
-      return cached.then(_.set('actions', []));
+      return cached.then(user => {
+        user.actions = [];
+        return user;
+      });
     }
 
     return (cache[name] = resolve(connect || connectDefault));
@@ -28,10 +31,12 @@ export function send(user, action) {
 export function resolve(connect) {
   const user = {
     actions: [],
-    socket: null,
+    socket: null
   };
 
   return connect({ 'action': action => actions(user).push(action) })
-    .then(socket => _.set('socket', socket, user));
+    .then(socket => {
+      user.socket = socket;
+      return user;
+    });
 }
-

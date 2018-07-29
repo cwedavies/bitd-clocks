@@ -1,8 +1,11 @@
-import _ from 'lodash/fp';
-import { of } from 'most';
+import { fromEvent, startWith } from 'most';
+import EventEmitter from 'events';
+
+const CHANGE_EVENT = 'change';
 
 export default function store() {
   let ticks = 2;
+  const emitter = new EventEmitter();
   const listeners = [];
 
   return {
@@ -12,24 +15,20 @@ export default function store() {
   };
 
   function changes() {
-    return of(ticks);
+    return startWith(ticks, fromEvent(CHANGE_EVENT, emitter));
   }
 
   function tickdown() {
-    ticks = ticks + 1;
-    notifyAll();
+    setTimeout(() => {
+      ticks = (ticks > 0 ? ticks - 1 : 0);
+      emitter.emit(CHANGE_EVENT, ticks)
+    });
   }
 
   function tickup() {
-    ticks = ticks - 1;
-    notifyAll();
-  }
-
-  function notify(listener) {
-    listener(ticks);
-  }
-
-  function notifyAll() {
-    _.each(notify, listeners);
+    setTimeout(() => {
+      ticks = (ticks < 5 ? ticks + 1 : 0);
+      emitter.emit(CHANGE_EVENT, ticks);
+    });
   }
 }

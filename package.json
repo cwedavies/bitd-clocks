@@ -1,0 +1,11 @@
+{
+	"private": true,
+	"devDependencies": {
+		"lerna": "^2.11.0"
+	},
+	"scripts": {
+		"bootstrap": "lerna bootstrap",
+		"test": "lerna exec yarn test"
+	},
+	"workspaces": ["client", "server"]
+}

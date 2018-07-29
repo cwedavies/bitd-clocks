@@ -1,7 +1,9 @@
 image: node:8.11.3-alpine
 
+before_script:
+  - yarn install
+
 test:server:
   script:
-    - cd server/
-    - yarn install --silent
-    - yarn run test
+    - yarn run bootstrap --scope server
+    - yarn run test --scope server

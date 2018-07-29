@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import { of } from 'most';
 
 export default function store() {
   let ticks = 2;
@@ -10,9 +11,8 @@ export default function store() {
     tickup: tickup
   };
 
-  function changes(listener) {
-    listeners.push(listener);
-    notify(listener);
+  function changes() {
+    return of(ticks);
   }
 
   function tickdown() {

@@ -23,6 +23,7 @@ test.before(startServer);
 test('1)  user A connects to the service', async t => {
   // ACT
   const userA = await resolveUser('userA');
+  await delay(10);
 
   // ASSERT
   t.truthy(user.actions(userA).length, 'Expected some initial state');
@@ -37,7 +38,7 @@ test('2)  user A ticks down the clock', async t => {
 
   // ACT
   user.send(userA, { type: 'clock/TICKDOWN' });
-  await delay(20);
+  await delay(10);
 
   // ASSERT
   const action = user.lastAction(userA);
@@ -67,7 +68,7 @@ function connect(handlers) {
 
 function delay(ms, promise) {
   return new Promise(_.delay(ms))
-    .then(promise);
+    .then(() => promise);
 }
 
 function startServer() {

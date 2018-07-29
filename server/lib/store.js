@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import { fromEvent, startWith } from 'most';
 import EventEmitter from 'events';
 
@@ -19,16 +20,16 @@ export default function store() {
   }
 
   function tickdown() {
-    setTimeout(() => {
-      ticks = (ticks > 0 ? ticks - 1 : 0);
-      emitter.emit(CHANGE_EVENT, ticks)
-    });
+    ticks = (ticks > 0 ? ticks - 1 : 0);
+    emitChange(ticks);
   }
 
   function tickup() {
-    setTimeout(() => {
-      ticks = (ticks < 5 ? ticks + 1 : 0);
-      emitter.emit(CHANGE_EVENT, ticks);
-    });
+    ticks = (ticks < 5 ? ticks + 1 : 0);
+    emitChange(ticks);
+  }
+
+  function emitChange(ticks) {
+    _.delay(0, () => emitter.emit(CHANGE_EVENT, ticks));
   }
 }

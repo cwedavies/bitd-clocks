@@ -1,9 +1,10 @@
 import React from 'react';
 import _ from 'lodash/fp';
+import { connect } from 'react-redux';
 
 import Clock from '../components/Clock';
 
-export default ClockView;
+export default connect(mapStateToProps)(ClockView);
 
 function ClockView({clocks}) {
   return (
@@ -16,4 +17,10 @@ function ClockView({clocks}) {
       }
     </section>
   );
+}
+
+function mapStateToProps(state) {
+  return {
+    clocks: [state]
+  };
 }

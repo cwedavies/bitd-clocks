@@ -15,6 +15,13 @@
     "ava": "^1.0.0-beta.6",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "nodemon": "^1.17.5"
+    "babel-register": "^6.26.0",
+    "nodemon": "^1.17.5",
+    "socket.io-client": "^2.1.1"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ]
   }
 }

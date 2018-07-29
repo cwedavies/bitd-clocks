@@ -11,13 +11,35 @@ const initialState = {
 
 export default reducer;
 
-function reducer(state = initialState, action) {
+function reducer(clock = initialState, action) {
   switch(action.type) {
     case actions.CLOCK_DECREMENT:
-      return Object.assign({}, state, { ticks: state.ticks - 1 });
+      return updateTicks(clock, dec);
     case actions.CLOCK_INCREMENT:
-      return Object.assign({}, state, { ticks: state.ticks + 1 });
+      return updateTicks(clock, inc);
     default:
-      return state;
+      return clock;
   }
+}
+
+function updateTicks(clock, fn) {
+  var ticks = clamp(fn(clock.ticks), 0, 6);
+
+  return (ticks === clock.ticks) ?
+    clock :
+    Object.assign({}, clock, { ticks });
+}
+
+function clamp(val, min, max) {
+  if (val < min) return min;
+  if (val > max) return max;
+  return val;
+}
+
+function inc(x) {
+  return x + 1;
+}
+
+function dec(x) {
+  return x - 1;
 }

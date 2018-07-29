@@ -3,7 +3,7 @@ import './App.css';
 
 import _ from 'lodash/fp';
 
-import Clock from './components/Clock';
+import ClockView from './views/ClockView';
 
 const clocks = [
   {
@@ -22,14 +22,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <section className="clocks">
-          {
-            _.map(
-              (clock, idx) => <Clock key={idx} {...clock} />,
-              clocks
-            )
-          }
-        </section>
+        <ClockView clocks={clocks} />
       </div>
     );
   }

@@ -11,8 +11,8 @@ function ClockView({clocks}) {
     <section className="clocks">
       {
         _.map(
-          (clock, idx) => <Clock key={idx} {...clock} />,
-          clocks
+          ([idx, clock]) => <Clock key={idx} {...clock} />,
+          _.entries(clocks)
         )
       }
     </section>

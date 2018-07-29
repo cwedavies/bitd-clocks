@@ -25,8 +25,8 @@ function Clock({caption, ticks}) {
         <ClockFace caption={caption} />
         {
           _.map(
-            (tick, idx) => <Tick key={idx} {...tick} />,
-            _.take(ticks, config.TICKS)
+            ([idx, tick]) => <Tick key={idx} {...tick} />,
+            _.entries(_.take(ticks, config.TICKS))
           )
         }
       </svg>

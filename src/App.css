@@ -16,6 +16,11 @@
 
 html, body, #root, .App {
   height: 100%;
+  width: 100%;
+}
+
+html, body, div, article, section {
+  box-sizing: border-box;
 }
 
 .clocks {
@@ -23,41 +28,37 @@ html, body, #root, .App {
 
   padding: 20px;
 
-  font: 30px besom;
+  font: 24px dragonfly;
   letter-spacing: 4px;
   text-transform: uppercase;
 
   height: 100%;
+  width: 100%;
+  overflow: hidden;
 
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  justify-content: center;
+
+  background-image: url(./assets/creampaper.png);
 }
 
 .clocks article {
-  width: 380px;
-  height: 380px;
+  width: 100%;
+  height: 100%;
   position: relative;
 
-  padding: 20px;
-  margin: 10px;
+  display: flex;
+
+  justify-content: center;
 
   box-sizing: border-box;
 }
 
-.clocks article header {
-  height: 40%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .clocks article svg {
-  z-index: -1;
-  top: -10px;
-  left: -10px;
-  position: absolute;
+  width: 100%;
+  max-width: 600px;
 }
 
 .clocks h1 {

@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import _ from 'lodash/fp';
-
 import ClockView from './views/ClockView';
 
 const clocks = [
   {
-    caption: 'Bear\'s Stength',
+    caption: [
+      'Run!',
+      'Escape the Bluecoats'
+    ],
     size: 6,
-    ticks: 2
-  },
-  {
-    caption: 'Escape from Bluecoats',
-    size: 6,
-    ticks: 4
+    ticks: 5
   }
 ];
 

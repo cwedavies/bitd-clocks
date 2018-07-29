@@ -2,7 +2,7 @@ import React from 'react';
 
 import _ from 'lodash/fp';
 
-import ClockFace from './ClockFace';
+import ClockFace from './ClockFaceAlt';
 import Paper from './Paper';
 import Tick from './Tick';
 
@@ -26,15 +26,13 @@ function Clock(props) {
         <h1>{caption}</h1>
       </header>
       <svg width="400" viewBox="0 0 400 400">
-        <Paper>
-          <ClockFace />
-          {
-            _.map(
-              (tick, idx) => <Tick key={idx} {...tick} />,
-              _.take(ticks, CONFIG.ticks)
-            )
-          }
-        </Paper>
+        <ClockFace />
+        {
+          _.map(
+            (tick, idx) => <Tick key={idx} {...tick} />,
+            _.take(ticks, CONFIG.ticks)
+          )
+        }
       </svg>
     </article>
   );

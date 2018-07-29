@@ -5,6 +5,7 @@ import { createLogger, transports, format } from 'winston';
 
 import server from '../lib/server';
 import * as user from './_user';
+import { WSASYSNOTREADY } from 'constants';
 
 const TEST_PORT = 3002;
 
@@ -37,9 +38,7 @@ test('1)  user A connects to the service', async t => {
 
   // ASSERT
   t.truthy(user.actions(userA).length, 'Expected some initial state');
-
-  const firstAction = _.first(user.actions(userA));
-  t.is(firstAction.type, 'clock/UPDATE', 'Expected the first action to be a clock update');
+  assertUpdate(t, user.lastAction(userA), 2);
 });
 
 test('2)  user A ticks down the clock', async t => {
@@ -53,9 +52,60 @@ test('2)  user A ticks down the clock', async t => {
   // ASSERT
   const action = user.lastAction(userA);
   t.truthy(action, 'Expected a response to user A\'s action');
-  t.is(action.type, 'clock/UPDATE', 'Expected the response to be a clock update');
-  t.is(action.ticks, 3, 'Expected the clock\'s ticks to be incremented');
+  assertUpdate(t, user.lastAction(userA), 3);
 });
+
+test('3)  user B connects to the service', async t => {
+  const userB = await resolveUser('userB');
+
+  // ASSERT
+  await delay(10);
+  const action = user.lastAction(userB);
+  t.truthy(action, 'Expected initial state');
+  assertUpdate(t, user.lastAction(userB), 3);
+});
+
+test('4)  user A ticks down the clock', async t => {
+  const [userA, userB] = await Promise.all([resolveUser('userA'), resolveUser('B')]);
+
+  user.send(userA, { type: 'clock/TICKDOWN' });
+
+  await delay(10);
+  t.truthy(user.lastAction(userA), 'Expected user A to recieve an updated');
+  assertUpdate(t, user.lastAction(userA), 4);
+  t.truthy(user.lastAction(userB), 'Expected user B to recieve an updated');
+  assertUpdate(t, user.lastAction(userB), 4);
+});
+
+test('5)  user A ticks up the clock', async t => {
+  const [userA, userB] = await Promise.all([resolveUser('userA'), resolveUser('B')]);
+
+  user.send(userA, { type: 'clock/TICKUP' });
+
+  await delay(10);
+  t.truthy(user.lastAction(userA), 'Expected user A to recieve an updated');
+  assertUpdate(t, user.lastAction(userA), 3);
+  t.truthy(user.lastAction(userB), 'Expected user B to recieve an updated');
+  assertUpdate(t, user.lastAction(userB), 3);
+});
+
+test('6)  user B ticks down the clock twice', async t => {
+  const [userA, userB] = await Promise.all([resolveUser('userA'), resolveUser('B')]);
+
+  user.send(userB, { type: 'clock/TICKDOWN' });
+  user.send(userB, { type: 'clock/TICKDOWN' });
+
+  await delay(10);
+  t.truthy(user.lastAction(userA), 'Expected user A to recieve an updated');
+  assertUpdate(t, user.lastAction(userA), 5);
+  t.truthy(user.lastAction(userB), 'Expected user B to recieve an updated');
+  assertUpdate(t, user.lastAction(userB), 5);
+});
+
+function assertUpdate(t, { type, ticks }, expectedTicks) {
+  t.is(type, 'clock/UPDATE', 'Expected the action to be a clock update');
+  t.is(ticks, expectedTicks, `Expected the clock to have ${expectedTicks} ticks`);
+}
 
 function connect(handlers) {
   return new Promise((resolve, reject) => {

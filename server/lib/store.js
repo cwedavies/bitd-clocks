@@ -6,7 +6,8 @@ export default function store() {
 
   return {
     changes: changes,
-    tickdown: tickdown
+    tickdown: tickdown,
+    tickup: tickup
   };
 
   function changes(listener) {
@@ -16,6 +17,11 @@ export default function store() {
 
   function tickdown() {
     ticks = ticks + 1;
+    notifyAll();
+  }
+
+  function tickup() {
+    ticks = ticks - 1;
     notifyAll();
   }
 

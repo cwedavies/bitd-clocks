@@ -18,6 +18,10 @@ export default function server(log) {
       if (type === 'clock/TICKDOWN') {
         store.tickdown();
       }
+
+      if (type === 'clock/TICKUP') {
+        store.tickup();
+      }
     });
   });
 

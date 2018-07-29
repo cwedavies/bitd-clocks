@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 
-import Clock from '../components/ClockAlt';
+import Clock from '../components/Clock';
 
 export default ClockView;
 

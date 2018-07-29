@@ -2,38 +2,34 @@ import React from 'react';
 
 import _ from 'lodash/fp';
 
-import ClockFace from './ClockFaceAlt';
-import Paper from './Paper';
+import ClockFace from './ClockFace';
 import Tick from './Tick';
 
-const CONFIG = {
-  ticks: [
-    { x: 80, y: 296, rotation: 74 },
-    { x: 170, y: 300, rotation: 178 },
-    { x: 260, y: 272, rotation: 2 },
-    { x: 350, y: 342, rotation: 34 }
+const config = {
+  TICKS: [
+    { x: 100, y: 140, rotation: 74 },
+    { x: 200, y: 110, rotation: 178 },
+    { x: 280, y: 160, rotation: 2 },
+    { x: 287, y: 260, rotation: 34 },
+    { x: 210, y: 315, rotation: 2 },
+    { x: 120, y: 260, rotation: 34 },
   ]
 };
 
 export default Clock;
 
-function Clock(props) {
-  const { caption, ticks } = props;
-
+function Clock({caption, ticks}) {
   return (
     <article>
-      <header>
-        <h1>{caption}</h1>
-      </header>
-      <svg width="400" viewBox="0 0 400 400">
-        <ClockFace />
+      <svg viewBox="0 0 400 400">
+        <ClockFace caption={caption} />
         {
           _.map(
             (tick, idx) => <Tick key={idx} {...tick} />,
-            _.take(ticks, CONFIG.ticks)
+            _.take(ticks, config.TICKS)
           )
         }
       </svg>
     </article>
   );
-};
+}

@@ -1,35 +1,60 @@
 import React from 'react';
 
+import _ from 'lodash/fp';
+
+import textTexture from '../assets/grunge/texture13.png';
+import clockTexture from '../assets/grunge/texture15.png';
+
 export default ClockFace;
 
-function ClockFace() {
+function ClockFace({caption}) {
+  caption = _.isArray(caption) ?
+    _.reverse(_.clone(caption)) :
+    [caption];
+
   return (
-    <g transform="translate(204, 400) rotate(4) scale(1.02)"
+    <g transform="translate(200, 220) rotate(5)"
        fill="none"
-       stroke="#333"
+       stroke="#000"
        strokeWidth="1"
        opacity="0.7">
-      <circle r="185" cx="0" cy="0"
-              strokeWidth="4" />
-      <circle r="189" cx="0" cy="0" />
-
-      <path d="M-1 -185 L-1 185" />
-      <path d="M1 -185 L1 185" />
-
-      <path d="M91 -160 L62 174" />
-      <path d="M93 -160 L64 174" />
-
-      <path d="M167 -78 L118 142" />
-      <path d="M169 -78 L120 142" />
-
-      <path d="M-91 -160 L-62 174" />
-      <path d="M-93 -160 L-64 174" />
-
-      <path d="M-167 -78 L-118 142" />
-      <path d="M-169 -78 L-120 142" />
-
-      <path d="M-182 -32 L182 -32"
-            strokeWidth="2" />
+      <defs>
+        <path id="text-path"
+              d="M-152 0 a152 152 0 0 1 304 0" />
+        <path id="text-path-2"
+              d="M-180 0 a180 180 0 0 1 360 0" />
+        <mask id="face-mask">
+          <image x="-400" y="-200" width="600" href={clockTexture} />
+        </mask>
+        <mask id="text-mask">
+          <image x="-400" y="-200" width="600" href={textTexture} />
+        </mask>
+      </defs>
+      <text stoke="none"
+            fill="#000"
+            mask="url(#text-mask)">
+        <textPath href="#text-path-2" startOffset="50%" textAnchor="middle">
+          {caption[1]}
+        </textPath>
+        <textPath href="#text-path"
+                  startOffset="50%"
+                  textAnchor="middle">
+          {caption[0]}
+        </textPath>
+      </text>
+      <g mask="url(#face-mask)">
+        <circle r="140" cx="0" cy="0"
+                strokeWidth="4" />
+        <circle r="145" cx="0" cy="0" />
+        <path d="M-140 0 140 0"
+              strokeWidth="2" />
+        <path d="M-140 0 140 0"
+              strokeWidth="2"
+              transform="rotate(60)" />
+        <path d="M-140 0 140 0"
+              strokeWidth="2"
+              transform="rotate(120)" />
+      </g>
     </g>
   );
 }

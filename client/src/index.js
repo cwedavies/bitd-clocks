@@ -11,7 +11,7 @@ import App from './App';
 import clockReducer from './state/clock';
 import registerServiceWorker from './registerServiceWorker';
 
-const socket = openSocket('http://192.168.0.106:3001', { path: '/' });
+const socket = openSocket('http://localhost:3001', { path: '/', transports: ['websocket']});
 const store = createStore(
   clockReducer,
   undefined,

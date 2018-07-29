@@ -4,9 +4,12 @@ export function buildCache(connectDefault) {
   const cache = {};
 
   return (name, connect) => {
-    return cache[name]
-      ? cache[name]
-      : (cache[name] = resolve(connect || connectDefault));
+    const cached = cache[name];
+    if (cached) {
+      return cached.then(_.set('actions', []));
+    }
+
+    return (cache[name] = resolve(connect || connectDefault));
   };
 }
 
@@ -15,7 +18,7 @@ export function actions(user) {
 }
 
 export function lastAction(user) {
-  return _.last(actions(user));
+  return _.last(actions(user)) || null;
 }
 
 export function send(user, action) {

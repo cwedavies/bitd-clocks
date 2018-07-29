@@ -37,10 +37,13 @@ test('2)  user A ticks down the clock', async t => {
 
   // ACT
   user.send(userA, { type: 'clock/TICKDOWN' });
+  await delay(20);
 
   // ASSERT
   const action = user.lastAction(userA);
-  t.is(action.type, 'clock/UPDATE');
+  t.truthy(action, 'Expected a response to user A\'s action');
+  t.is(action.type, 'clock/UPDATE', 'Expected the response to be a clock update');
+  t.is(action.ticks, 3, 'Expected the clock\'s ticks to be incremented');
 });
 
 function connect(handlers) {
@@ -60,6 +63,11 @@ function connect(handlers) {
     socket.on('connect', () => resolve(socket));
     socket.on('reconnect_failed', () => reject('Unable to connect to api'));
   });
+}
+
+function delay(ms, promise) {
+  return new Promise(_.delay(ms))
+    .then(promise);
 }
 
 function startServer() {

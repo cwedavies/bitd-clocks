@@ -1,33 +1,14 @@
 import _ from 'lodash/fp';
 import { serial as test } from 'ava';
-import io from 'socket.io-client';
-import { createLogger, transports, format } from 'winston';
 
-import server from '../lib/server';
 import * as user from './_user';
-import { WSASYSNOTREADY } from 'constants';
+import { connect, delay, startServer } from './_util';
 
-const TEST_PORT = 3002;
-
-const PORT = 3001;
-
-const log = createLogger({
-  level: process.env.LOG_LEVEL || 'error',
-  transports: [
-    new transports.Console({ format: format.simple() })
-  ]
-});
-
-/*
-1) user A connects to the service
-2) user A ticks down the clock
-3) user B connects to the service
-4) user A ticks down the clock
-5) user A ticks up the clock
-6) user B ticks up the clock twice
-*/
+// -- Constants --
 
 const resolveUser = user.buildCache(connect);
+
+// -- Test Suite --
 
 test.before(startServer);
 
@@ -107,36 +88,3 @@ function assertUpdate(t, { type, ticks }, expectedTicks) {
   t.is(ticks, expectedTicks, `Expected the clock to have ${expectedTicks} ticks`);
 }
 
-function connect(handlers) {
-  return new Promise((resolve, reject) => {
-    const socket = io(`http://localhost:${TEST_PORT}`, {
-      path: '/api',
-      reconnectionAttempts: 3,
-      timeout: 1000,
-      forceNew: true,
-      transports: ['websocket']
-    });
-
-    _.each(([event, handler]) => {
-      socket.on(event, handler);
-    }, _.entries(handlers));
-
-    socket.on('connect', () => resolve(socket));
-    socket.on('reconnect_failed', () => reject('Unable to connect to api'));
-  });
-}
-
-function delay(ms, promise) {
-  return new Promise(_.delay(ms))
-    .then(() => promise);
-}
-
-function startServer() {
-  return new Promise((resolve, reject) => {
-    server(log).listen(TEST_PORT, err => {
-      if (err) return reject(`Unable to start server: ${err}`);
-      log.info(`server listening on ${TEST_PORT}`);
-      resolve();
-    });
-  });
-}

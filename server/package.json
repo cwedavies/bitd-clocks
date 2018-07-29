@@ -3,7 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+		"build": "babel lib -d dist",
+		"start": "nodemon lib/index.js --exec babel-node"
+  },
   "dependencies": {
     "socket.io": "^2.1.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^1.17.5"
   }
 }

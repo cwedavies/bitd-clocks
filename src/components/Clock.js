@@ -2,9 +2,9 @@ import React from 'react';
 
 import _ from 'lodash/fp';
 
-import ClockFace from '../clock/ClockFace';
-import Paper from '../clock/Paper';
-import Tick from '../clock/Tick';
+import ClockFace from './ClockFace';
+import Paper from './Paper';
+import Tick from './Tick';
 
 const CONFIG = {
   ticks: [

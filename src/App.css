@@ -1,17 +1,17 @@
 @font-face {
   font-family: dragonfly;
-  src: url(./Dragonfly.otf);
+  src: url(./assets/Dragonfly.otf);
 }
 
 @font-face {
   font-family: europa;
-  src: url(./EuropaBrush-Regular.woff);
+  src: url(./assets/EuropaBrush-Regular.woff);
 }
 
 @font-face {
   font-family: besom;
   font-weight: 600;
-  src: url(./Besom-Handwritten-Brush-Font.ttf);
+  src: url(./assets/Besom-Handwritten-Brush-Font.ttf);
 }
 
 html, body, #root, .App {

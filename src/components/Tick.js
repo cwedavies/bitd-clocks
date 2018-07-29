@@ -1,6 +1,6 @@
 import React from 'react';
 
-import texture from './texture.jpg';
+import texture from '../assets/texture.jpg';
 
 export default Tick;
 

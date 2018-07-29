@@ -1,6 +1,6 @@
 import React from 'react';
 
-import imagePaper from './creampaper.png';
+import imagePaper from '../assets/creampaper.png';
 
 export default Paper;
 
